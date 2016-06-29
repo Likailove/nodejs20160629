@@ -1,4 +1,4 @@
-# nodejs160612
+# nodejs20160629
 第一个nodejs项目
 1、安装express
 npm install -g express-generator
@@ -12,3 +12,6 @@ SET DEBUG=nodejs20160629:* & npm start    #nodejs20160629@0.0.0 start D:\nodejs2
 GIT
 git init
 git add -A
+git commit -m"init project"
+git remote add origin git@github.com:Likailove/nodejs20160629.git
+git push origin master
