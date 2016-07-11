@@ -1,0 +1,21 @@
+{
+  "name": "nodejs20160629",
+  "description": "express npm bower",
+  "main": "",
+  "authors": [
+    "LK45 <721600174@qq.com>"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/Likailove/nodejs20160629",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "^3.3.6"
+  }
+}

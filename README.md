@@ -8,6 +8,26 @@ express -e nodejs20160629
 npm install
 4、启动npm
 SET DEBUG=nodejs20160629:* & npm start    #nodejs20160629@0.0.0 start D:\nodejs20160629
+5、安装bower
+npm install bower -g
+6、初始化bower
+bower init
+7、创建配置文件
+.bowerrc
+{
+  "directory":"./public/lib"
+}
+8、安装bootstrap
+bower install bootstrap --save
+如果下载了项目的话就bower install
+
+9、安装mongoose
+npm install mongoose --save
+
+10、安装消息提醒一次中间件
+npm install connect-flash --save
+
+
 
 GIT
 git init
