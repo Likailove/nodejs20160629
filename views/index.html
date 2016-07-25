@@ -1,3 +1,59 @@
 <%- include ./include/header.html%>
-<%= title%>
+<div class="container">
+    <%
+    articles.forEach(function(article){
+    %>
+    <div class="media">
+        <div class="media-body">
+            <h4 class="media-heading"><a href="/articles/detail/<%=article._id%>"><%=article.title%></a></h4>
+            <p><%-article.content%></p>
+        </div>
+    </div>
+    <%
+    });
+    %>
+    <nav>
+        <ul class="pagination">
+            <%
+            if(pageNum!=1){
+            %>
+            <li>
+                <a href="/articles/list/<%=(pageNum-1)%>/<%=pageSize%>?keyword=<%=keyword%>" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+            </li>
+            <%
+            }
+            %>
+            <%
+                for(var i=0;i< totalPage;i++){
+            %>
+            <%
+                if((i+1)==pageNum){
+            %>
+                    <li class="active"><a href="/articles/list/<%=(i+1)%>/<%=pageSize%>?keyword=<%=keyword%>"><%=(i+1)%></a></li>
+            <%
+                }else{
+            %>
+                    <li><a href="/articles/list/<%=(i+1)%>/<%=pageSize%>?keyword=<%=keyword%>"><%=(i+1)%></a></li>
+            <%
+                }
+            %>
+            <%
+                }
+            %>
+            <%
+            if(pageNum!=totalPage){
+            %>
+            <li>
+                <a href="/articles/list/<%=(pageNum+1)%>/<%=pageSize%>?keyword=<%=keyword%>" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+            </li>
+            <%
+            }
+            %>
+        </ul>
+    </nav>
+</div>
 <%- include include/footer.html%>

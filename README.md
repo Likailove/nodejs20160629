@@ -27,6 +27,8 @@ npm install mongoose --save
 10、安装消息提醒一次中间件
 npm install connect-flash --save
 
+11、安装文件上传中间件
+npm install multer --save
 
 
 GIT

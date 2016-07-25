@@ -1,18 +1,19 @@
 var express = require('express');
+var auth = require('../auth');
 var router = express.Router();
 
 //用户注册
-router.get('/reg', function(req, res, next) {
+router.get('/reg', auth.noLogin,function(req, res, next) {
     res.render('user/reg',{title:'用户注册'});
 });
-router.post('/reg', function(req, res, next) {
+router.post('/reg',auth.noLogin, function(req, res, next) {
     var user = req.body;
     if(user.password != user.repassword){
         req.flash('error','密码和确认密码不一致！');
         return res.redirect('back');//回到上个页面
     }
    delete user.repassword;
-    user.password = blogUtil.md5(user.password)+"";
+    user.password = blogUtil.md5(user.password);
     user.avatar = "https://secure.gravatar.com/avatar/"+ blogUtil.md5(user.email)+"?s=48";
     new Model('User')(user).save(function(err,doc){
         if(err){
@@ -28,15 +29,14 @@ router.post('/reg', function(req, res, next) {
 });
 
 //用户登陆
-router.get('/login', function(req, res, next) {
-    res.render('user/login',{title:'用户登陆'});
+router.get('/login',auth.noLogin, function(req, res, next) {
+    res.render('user/login',{title:'用户登陆',user:{}});
 });
-router.post('/login', function(req, res, next) {
+router.post('/login',auth.noLogin, function(req, res, next) {
     if(req.body){
         var user = req.body;
         user.password = blogUtil.md5(user.password);
         Model('User').find(user,function(err,doc){
-            console.log("err="+err);
             if(err){
                 req.flash('error','用户登陆失败！');
                 return res.redirect('back');//回到上个页面
@@ -58,7 +58,7 @@ router.post('/login', function(req, res, next) {
 });
 
 //用户退出
-router.get('/logout', function(req, res, next) {
+router.get('/logout', auth.checkLogin,function(req, res, next) {
     req.session.user = null;
     res.redirect('/');
 });
