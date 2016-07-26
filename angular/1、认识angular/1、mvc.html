@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="lkMod">
+<head>
+    <meta charset="UTF-8">
+    <title>MVVM</title>
+</head>
+<body>
+    <div ng-controller="lkCtrol">
+        {{name}}
+        {{age + 1}}
+    </div>
+</body>
+<script src="../angular.js"></script>
+<script>
+    //模块的名字，依赖的其他模块
+    angular.module('lkMod',[])
+            .controller('lkCtrol', function ($scope) {//控制器名字，控制器定义
+                console.log($scope);//每个控制器都派生出自己的scope对象
+                $scope.name = 'lk';//自己添加属性
+                $scope.age = 6;//view取值都从scope里面取值
+    })
+    
+</script>
+</html>

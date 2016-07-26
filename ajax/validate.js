@@ -2,7 +2,7 @@
  * 可以对传入的对象链式添加一系列验证规则，然后开始逐条验证
  */
 var options = {
-    method:'get1',
+    method:'get',
     datType:'json'
 }
 
@@ -38,7 +38,7 @@ Validate.prototype = {
 
 var validate = new Validate(options);
 validate.addRule('method','请求方法不合法',function(value){
-    return /(get|post)/.test(value);
+    return /^(get|post)$/ig.test(value);
 }).addRule('datType','返回类型不合法',function(value){
-    return /(json|text)/.test(value);
+    return /^(json|text)$/ig.test(value);
 }).start();

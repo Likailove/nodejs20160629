@@ -30,6 +30,8 @@ npm install connect-flash --save
 11、安装文件上传中间件
 npm install multer --save
 
+12、安装angularjs
+bower install angular --save
 
 GIT
 git init
