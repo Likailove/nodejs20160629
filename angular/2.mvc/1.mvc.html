@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="lkMod">
+<head>
+    <meta charset="UTF-8">
+    <title>MVVM</title>
+</head>
+<body>
+    <div ng-controller="Ctrl1">
+        {{countService.count}}
+        <input type="button" value="+1" ng-click="add()"><!--所有ng开头的都绑定到scope上面-->
+    </div>
+    <div ng-controller="Ctrl2">
+        {{countService.count}}
+        <input type="button" value="+1" ng-click="add()"><!--所有ng开头的都绑定到scope上面-->
+    </div>
+</body>
+<script src="../angular.js"></script>
+<script>
+    //找到ng-app之后，会生成一个$rootScope
+    //$rootScope.name = ""    {{name}}
+    angular.module('lkMod',[])
+        .controller('Ctrl1', function ($scope,countService) {
+            $scope.countService = countService;
+            $scope.add = function () {
+                countService.add();
+            };
+        })
+        .controller('Ctrl2', function ($scope,countService) {
+            $scope.countService = countService;
+            $scope.add = function () {
+                countService.add();
+            };
+        }).factory('countService', function () {
+            return {
+                count:0,
+                add:function () {
+                    this.count++;
+                }
+            }
+        });
+</script>
+</html>

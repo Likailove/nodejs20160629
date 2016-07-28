@@ -14,9 +14,15 @@
 <script>
     //模块的名字，依赖的其他模块
     angular.module('lkMod',[])
-            .controller('lkCtrol', function ($scope) {//控制器名字，控制器定义
+            .controller('lkCtrol', function ($scope,$http) {//控制器名字，控制器定义
+                $http({
+                    url: 'greeting.json',
+                    method: 'GET'
+                }).success(function (data) {
+                    $scope.name = data.word;
+                });
                 console.log($scope);//每个控制器都派生出自己的scope对象
-                $scope.name = 'lk';//自己添加属性
+//                $scope.name = 'lk';//自己添加属性
                 $scope.age = 6;//view取值都从scope里面取值
     })
     

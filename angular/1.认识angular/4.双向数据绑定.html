@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="lkMod">
+<head>
+    <meta charset="UTF-8">
+    <title>MVVM</title>
+</head>
+<body ng-controller="parentController">
+    <div ng-controller="lkContr">
+        {{name | uppercase}}<!--过滤器，只改变显示的值不改变本身的值-->
+        {{age}}
+        {{$parent.age}}
+        <input type="text" ng-model="name">
+        <input type="button" value="改变" ng-click="change()"><!--所有ng开头的都绑定到scope上面-->
+    </div>
+</body>
+<script src="../angular.js"></script>
+<script>
+    //找到ng-app之后，会生成一个$rootScope
+    //$rootScope.name = ""    {{name}}
+    angular.module('lkMod',[])
+        .controller('lkContr', function ($scope) {
+            $scope.age = 100;
+            $scope.change = function () {
+                $scope.name = 'lk123';
+            };
+        })
+        .controller('parentController', function ($scope) {
+            $scope.age = 23;
+        });
+</script>
+</html>

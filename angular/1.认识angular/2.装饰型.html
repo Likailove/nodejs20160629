@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="lkMod">
+<head>
+    <meta charset="UTF-8">
+    <title>MVVM</title>
+</head>
+<body>
+    <div red>
+       hello
+    </div>
+    <span greeting>
+        world111
+    </span>
+</body>
+<script src="../angular.js"></script>
+<script>
+    //模块的名字，依赖的其他模块
+    angular.module('lkMod',[])
+            //定义一个指令，指令名字，指令的定义
+            .directive('red', function () {
+                return {
+                    //scope作用域，当前元素本身jquery对象
+                    link: function (scope, element) {
+                        element.css('color', 'red');
+                        element.css('border', '1px solid dash');
+                        element.on('click', function () {
+                            alert(element.html());
+                        });
+                    }
+                }
+            })
+           .directive('greeting', function ($http) {
+               return {
+                   //scope作用域，当前元素本身jquery对象
+                   link: function (scope, element) {
+                       //$http===$ajax
+                       $http({
+                           url: 'greeting.json',
+                           method: 'GET'
+                       }).success(function (data) {
+                           element.html(data.word);
+                       });
+                   }
+               }
+           })
+</script>
+</html>

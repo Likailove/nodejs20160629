@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="lkMod1">
+    <head>
+    <meta charset="UTF-8">
+    <title>MVVM</title>
+    </head>
+    <body>
+        <div ng-controller="Ctrl1">
+            {{name}}
+        </div>
+        <div ng-controller="Ctrl2">
+            {{name}}
+        </div>
+    </body>
+    <script src="../angular.js"></script>
+    <script>
+        angular.module('lkMod1',['lkMod2'])
+            .controller('Ctrl1', function ($scope) {
+                $scope.name = 'ctrl1';
+            })
+        angular.module('lkMod2',[])
+            .controller('Ctrl2', function ($scope) {
+                $scope.name = 'ctrl2';
+            })
+    </script>
+</html>

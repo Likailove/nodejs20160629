@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="lkMod">
+    <head>
+    <meta charset="UTF-8">
+    <title>MVVM</title>
+    </head>
+    <body>
+        <div ng-controller="ParentCtrl">
+            <p>Parent:{{count}}</p>
+            <div ng-controller="ChildCtrl">
+                <input type="text" ng-model="num">
+                <input type="button" ng-click="$emit('add',num)" value="up">
+                <input type="button" ng-click="$broadcast('add',num)" value="down">
+                <p>Child:{{count}}</p>
+                <div ng-controller="GrandCtrl">
+                    <p>Grand:{{count}}</p>
+                </div>
+            </div>
+        </div>
+    </body>
+    <script src="../angular.js"></script>
+    <script>
+        angular.module('lkMod',[])
+            .controller('ParentCtrl', function ($scope) {
+                $scope.count = 0;
+                $scope.$on('add', function (eve,num) {
+                    $scope.count+=num;
+                });
+            })
+            .controller('ChildCtrl', function ($scope) {
+                $scope.count = 0;
+//                $scope.$on('add', function (eve) {
+//                    $scope.count++;
+//                });
+            })
+            .controller('GrandCtrl', function ($scope) {
+                $scope.count = 0;
+                $scope.$on('add', function (eve,num) {
+                    $scope.count+=num;
+                });
+            })
+</script>
+</html>

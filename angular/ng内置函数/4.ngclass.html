@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="lkMod"><!--赋值app初始name-->
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="../bootstrap.css">
+    <title>Title</title>
+</head>
+<body ng-controller="lkCtrl">
+<div class="container-fluid">
+    <div class="form-group" ng-class="{'has-error':username.length<=6,'has-success':username.length>6}">
+        <input class="form-control" type="text" ng-model="username">
+    </div>
+</div>
+</body>
+<script src="../angular.js"></script>
+<script>
+    angular.module('lkMod',[])
+        .controller('lkCtrl', function ($scope) {
+
+        });
+</script>
+</html>

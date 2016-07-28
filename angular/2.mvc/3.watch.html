@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="lkMod">
+    <head>
+    <meta charset="UTF-8">
+    <title>MVVM</title>
+    </head>
+    <body>
+        <div ng-controller="WatchCtrl">
+            <input ng-model="age">
+            <p>{{age}}</p>
+        </div>
+        <div ng-controller="WatchCtrl1">
+            <input id="age" type="text" lk-model="age">
+            <p>{{age}}</p>
+        </div>
+    </body>
+    <script src="../angular.js"></script>
+    <script>
+        angular.module('lkMod',[])
+            .controller('WatchCtrl', function ($scope,$interval) {
+                $scope.age = 100;
+                $scope.$watch('age', function (newVal,oldVal) {
+                    console.log(newVal,oldVal);
+                    if(newVal<18){
+                        alert('too little');
+                    }
+                });
+                console.log($scope);
+                $interval(function () {
+                    ("#age").val(("#age").val() + 1);
+                },3000);
+            })
+            .controller('WatchCtrl1', function ($scope,$interval) {
+                $scope.age = 100;
+                $scope.$watch('age', function (newVal,oldVal) {
+                    console.log(newVal,oldVal);
+                });
+                console.log($scope);
+                $interval(function (element) {
+                    element.val(element.val() + 1);
+                },3000);
+            })
+            .directive('lkModel', function ($timeout) {
+                return{
+                    link: function (scope,element,attrs) {
+                        element.on('keypress', function () {
+                            //强制观察者去比对模型是否改动
+                            scope.$apply(function(){
+                                scope.age = element.val();
+                            });
+                            //或者
+//                            $timeout(function () {
+//                                scope.age = element.val();
+//                            },0);
+                        });
+                        //模型变化时执行回调，修改视图的值
+                        scope.$watch('age', function (newVal,oldVal) {
+                            if(newVal != oldVal){
+                                element.val(scope.age);
+                            }
+                        });
+                    }
+                }
+           })
+    </script>
+</html>

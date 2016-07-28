@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="lkMod"><!--赋值app初始name-->
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body ng-controller="lkCtrl">
+<div class="container-fluid" ng-init="phones=[{name:'iphone'},{name:'moto'}]">
+    <div class="row-fluid">
+        Search：<input ng-model="query">
+        <ul class="phones">
+            <li ng-repeat="phone in phones | filter:query">
+                {{phone.name}}
+            </li>
+        </ul>
+    </div>
+</div>
+</body>
+<script src="../angular.js"></script>
+<link rel="stylesheet" href="../bootstrap.css">
+<script>
+    angular.module('lkMod',[])
+        .controller('lkCtrl', function ($scope) {
+        });
+</script>
+</html>

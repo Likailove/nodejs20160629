@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="lkMod"><!--赋值app初始name-->
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body ng-controller="lkCtrl">
+<div ng-init="name='lk'">
+    {{name}}
+    <span ng-bind="name"></span><!--不会显示花括号-->
+</div>
+<div ng-init="width=3;length=5">
+    长方形面积：{{width * length}}
+</div>
+<div ng-init="number=['1','2','3']">
+    第一个数字为：{{number[0]}}
+</div>
+<div>
+    请输入任意值：<input type="text" ng-model="name">
+    您输入的值：{{name}}
+</div>
+</body>
+<script src="../angular.js"></script>
+<script>
+    angular.module('lkMod',[])
+        .controller('lkCtrl', function ($scope,$interval) {
+            $scope.name = 'kevin';
+            $interval(function () {
+                console.log($scope.name);
+            },2000);
+        });
+</script>
+</html>

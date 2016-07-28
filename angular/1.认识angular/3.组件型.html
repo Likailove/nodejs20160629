@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="lkMod">
+<head>
+    <meta charset="UTF-8">
+    <title>MVVM</title>
+</head>
+<body>
+    <lkform>
+    </lkform>
+</body>
+<script src="../angular.js"></script>
+<script>
+    //模块的名字，依赖的其他模块
+    angular.module('lkMod',[])
+        .directive('red', function () {
+            return {
+                //scope作用域，当前元素本身jquery对象
+                link: function (scope, element) {
+                    element.css('color', 'red');
+                    element.css('border', '1px solid dash');
+                    element.on('click', function () {
+                        alert(element.html());
+                    });
+                }
+            }
+        })
+        //定义一个指令，指令名字，指令的定义
+        .directive('lkform', function () {
+            return {
+                //要用这个DOM内容添加到原来指令DOM的内部
+                template:'<form><span red>用户名</span><input name="username"></form>'
+            }
+        })
+</script>
+</html>
