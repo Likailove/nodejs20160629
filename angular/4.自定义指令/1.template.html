@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="lkMod"><!--赋值app初始name-->
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="../bootstrap.css">
+    <title>Title</title>
+</head>
+<body>
+    <span lk-hoverable>
+       我是span
+    </span>
+</body>
+<script src="../angular.js"></script>
+<script>
+    angular.module('lkMod',[])
+        .directive('lkHoverable', function () {
+            return {
+                link: function (scope,element,attrs) {
+                    element.on('mouseover', function () {
+                        element.css({outline:'#ff0000 dotted thick'});
+                    }).on('mouseout', function () {
+                        element.css({outline:'none'});
+                    })
+                }
+            }
+        });
+</script>
+</html>

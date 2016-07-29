@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="lkMod"><!--赋值app初始name-->
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="../bootstrap.css">
+    <title>Title</title>
+</head>
+<body>
+    <span lk-hello>world</span>
+</body>
+<script src="../angular.js"></script>
+<script>
+    angular.module('lkMod',[])
+        .directive('lkHello', function () {
+            return {
+                transclude:true,//保留内嵌元素
+                replace:true,//默认false，把span标签去掉了
+//                template: '<h1>hello</h1>'
+                template: '<h1>hello<span ng-transclude></span></h1>'//把world暂存下来保存在transclude里面
+            }
+        });
+</script>
+</html>

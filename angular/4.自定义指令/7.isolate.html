@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="lkMod"><!--赋值app初始name-->
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="../bootstrap.css">
+    <title>Title</title>
+</head>
+<body ng-controller="lkCtrl">
+{{zhangsan}}<br>
+{{lisi}}<br>
+<!--scope:@-->
+<!--<person name="{{zhangsan}}"></person>-->
+<!--<person name="{{lisi}}"></person>-->
+<!--scope:=-->
+<person name="zhangsan"></person>
+<person name="lisi"></person>
+</body>
+<script src="../angular.js"></script>
+<script>
+    angular.module('lkMod',[])
+            .controller('lkCtrl', function ($scope) {
+                $scope.zhangsan = '张三';
+                $scope.lisi = '李四';
+                $scope.greet = function (name,word) {
+                    alert(name + '' + word);
+                }
+            })
+            .directive('person', function () {
+                return {
+                    replace:true,//true时template必须有标签根节点
+                    scope:{
+//                        name:'@name'//@把当前属性作为字符串传递，还可以绑定来自外层scope上的值，在属性中插入{{}}即可
+                        name:'=name'//=与父scope中的属性进行双向绑定
+                    },//默认false，独立互不影响
+                    restrict:'ECMA',
+                    template:'<div>姓名：{{name}}<input ng-model="name"></div>'
+                }
+            });
+</script>
+</html>

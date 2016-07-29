@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="lkMod"><!--赋值app初始name-->
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="../bootstrap.css">
+    <title>Title</title>
+</head>
+<body ng-init="word='lk'">
+    <div times="3">
+       <p>hello {{word}}</p>
+    </div>
+</body>
+<script src="../angular.js"></script>
+<script>
+    angular.module('lkMod',[])
+            .directive('times', function () {
+                return {
+                    compile: function (element,attrs) {
+                        var tpl = element.children();
+                        for(var i=0;i<attrs.times-1;i++){
+                            element.append(tpl.clone());
+                        }
+                        //compile之后返回link函数
+                        return function (scope,element,attrs) {
+                            scope.word = 'newlk';
+                        }
+//                        console.log(element.html());
+                    }
+                /*    //效果和上面的一样，如果有上面的return，这个就不执行了
+                    ,link: function (scope,element,attrs) {
+                        scope.word = 'newlk';
+                    }*/
+                }
+            });
+</script>
+</html>

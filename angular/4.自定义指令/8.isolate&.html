@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="lkMod"><!--赋值app初始name-->
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="../bootstrap.css">
+    <title>Title</title>
+</head>
+<body ng-controller="lkCtrl">
+{{zhangsan}}<br>
+{{lisi}}<br>
+<!--scope:&-->
+<person namex="zhangsan" greet2="greet3(name,word,num)"></person>
+<person namex="lisi"></person>
+</body>
+<script src="../angular.js"></script>
+<script>
+    angular.module('lkMod',[])
+            .controller('lkCtrl', function ($scope) {
+                $scope.zhangsan = '张三';
+                $scope.lisi = '李四';
+                $scope.count = 0;
+                $scope.greet3 = function (name,word,num) {
+                    $scope.count += num;
+                    console.log($scope.count);
+                    alert(name + '' + word);
+                }
+            })
+            .directive('person', function () {
+                return {
+                    replace:true,//true时template必须有标签根节点
+                    scope:{
+                        namey:'=namex',//=与父scope中的属性进行双向绑定
+                        greet1:'&greet2'//作为一个方法来调用
+                    },//默认false，独立互不影响
+                    restrict:'E',
+                    template:'<div>姓名：{{namey}}<input ng-model="word"><div ng-click="greet1({name:namey,word:word,num:5})">click</div></div>'
+                }
+            });
+</script>
+</html>

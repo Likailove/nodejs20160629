@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="lkMod"><!--赋值app初始name-->
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="../bootstrap.css">
+    <title>Title</title>
+</head>
+<body>
+<hello></hello>
+<hello></hello>
+<hello></hello>
+<div hello></div>
+<div class="hello"></div>
+<!-- directive:hello -->
+</body>
+<script src="../angular.js"></script>
+<script>
+    angular.module('lkMod',[])
+            .directive('hello', function () {
+                return {
+                    replace:true,//true时template必须有标签根节点
+                    restrict:'ECMA',
+                    template:'<input ng-model="name">'
+                }
+            });
+</script>
+</html>
