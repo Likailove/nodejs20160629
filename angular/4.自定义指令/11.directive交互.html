@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="lkMod"><!--赋值app初始name-->
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="../bootstrap.css">
+    <title>Title</title>
+    <style>
+        body{
+            padding: 70px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+       <div class="jumbotron text-center">
+           <girl beautiful gender></girl>
+           {{desc}}
+       </div>
+    </div>
+</body>
+<script src="../angular.js"></script>
+<script>
+    angular.module('lkMod',[])
+        .directive('girl', function () {
+            return {
+                restrict:'E',
+                scope:true,
+                controller: function ($scope,$element,$attrs) {//controller的代码给别人调用，link的代码自己用
+                    var desc = $scope.desc = [];
+                    this.add = function (char) {
+                        desc.push(char);
+                    }
+                },
+                template:'<h1>angular {{desc}}</h1>'
+            };
+        })
+        .directive('beautiful', function () {
+            return {
+                restrict:'A',
+                require:'girl',//依赖girl，link多了一个属性
+                link: function (scope,element,attrs,girlCtrl) {
+                    girlCtrl.add('beautiful');
+                }
+            };
+        })
+        .directive('gender', function () {
+            return {
+                restrict:'A',
+                require:'girl',//依赖girl，link多了一个属性
+                link: function (scope,element,attrs,girlCtrl) {
+                    girlCtrl.add('gender');
+                }
+            };
+        })
+</script>
+</html>

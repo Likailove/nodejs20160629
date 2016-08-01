@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="lkMod"><!--赋值app初始name-->
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="../bootstrap.css">
+    <title>Title</title>
+</head>
+<body ng-controller="lkCtrl">
+    时间的格式：<input type="text" ng-model="format"><br/>
+    当前时间：<span lk-current-time="format"></span>
+</body>
+<script src="../angular.js"></script>
+<script>
+    angular.module('lkMod',[])
+        .controller('lkCtrl', function ($scope) {
+            $scope.format = 'M/d/yy h:mm:ss a';
+        })
+        .directive('lkCurrentTime', function ($interval,dateFilter) {
+            return {
+                link: function (scope,element,attrs) {
+                    function updateTime(){
+                        element.text(dateFilter(new Date(),scope.format));
+                    };
+                    $interval(function () {
+                        updateTime();
+                    },1000);
+                }
+            }
+        });
+</script>
+</html>

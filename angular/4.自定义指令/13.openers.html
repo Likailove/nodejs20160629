@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="lkMod"><!--赋值app初始name-->
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="../bootstrap.css">
+    <title>Title</title>
+    <style>
+        .title{
+            width: 100px;
+            height:30px;
+            border:1px solid red;
+        }
+        .content{
+            width: 100px;
+            height:200px;
+            border:1px solid green;
+        }
+    </style>
+</head>
+<body>
+    <openers>
+        <opener title="这是第一个标题"><div>这是第一个内容</div></opener>
+        <opener title="这是第二个标题"><div>这是第二个内容</div></opener>
+        <opener title="这是第三个标题"><div>这是第三个内容</div></opener>
+    </openers>
+</body>
+<script src="../angular.js"></script>
+<script>
+    /**
+     *   不给  找同级元素上的指令
+     *   ^     找同级或者上级上面是否依赖这个指令
+     */
+    angular.module('lkMod',[])
+            .directive('opener', function () {
+                return {
+                    restrict:'E',
+                    transclude:true,
+//                    scope:true,
+                    scope:{
+                        title:'@title'
+                    },
+                    templateUrl:'exp.html',
+                    require:'^openers',//'openers,aaa,bbb,ccc',
+                    link: function (scope,element,attrs,openersCtrl) {
+//                        scope.title = attrs.title;
+                        scope.toggle = function () {
+                            openersCtrl.open(scope);
+                        }
+                        openersCtrl.add(scope);
+                    }
+                };
+            })
+            .directive('openers', function () {
+                return {
+                    restrict:'E',
+                    scope:true,
+                    controller: function ($scope) {
+                        var openScopes = [];
+                        this.add = function (openScope) {//opener的scope
+                            openScopes.push(openScope);
+                        }
+                        this.open = function (scope) {
+                            openScopes.forEach(function (current) {
+                                if(scope == current){
+                                    current.open = !current.open;
+                                }else{
+                                    current.open = false;
+                                }
+                            })
+                        }
+                    }
+                };
+            })
+</script>
+</html>

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="lkMod"><!--赋值app初始name-->
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="../bootstrap.css">
+    <title>Title</title>
+    <style>
+        .title{
+            width: 100px;
+            height:30px;
+            border:1px solid red;
+        }
+        .content{
+            width: 100px;
+            height:200px;
+            border:1px solid green;
+        }
+    </style>
+</head>
+<body>
+<opener>
+</opener>
+</body>
+<script src="../angular.js"></script>
+<script>
+    angular.module('lkMod',[])
+            .directive('opener', function () {
+                return {
+                    restrict:'E',
+                    scope:true,
+                    templateUrl:'exp.html'
+                };
+            })
+</script>
+</html>
