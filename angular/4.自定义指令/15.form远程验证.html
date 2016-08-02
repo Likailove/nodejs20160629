@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="lkMod"><!--赋值app初始name-->
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="../bootstrap.css">
+    <title>Title</title>
+</head>
+<body ng-controller="formCtrl">
+<div class="container">
+<form name="userForm" novalidate="novalidate"><!--禁用h5验证-->
+    <div class="form-group" ng-class="{'has-success':userForm.username.$valid&&userForm.username.$dirty,'has-error':userForm.username.$invalid&&userForm.username.$dirty}">
+        <label for="username">用户名</label>
+        <input lk-unique lk-errors type="text" id="username" class="form-control" ng-model="username" name="username" ng-required="true">
+        <label for="email">邮箱</label>
+        <input lk-errors type="email" id="email" ng-minlength="3" class="form-control" ng-model="email" name="email" ng-required="true">
+        <!--<p class="help-block" ng-show="userForm.email.$error.required&&userForm.email.$dirty">此字段必输</p>-->
+        <!--<p class="help-block" ng-show="userForm.email.$error.email&&userForm.email.$dirty">请输入正确的邮箱格式</p>-->
+        <!--<p class="help-block" ng-show="userForm.email.$error.minlength&&userForm.email.$dirty">不能小于3位</p>-->
+    </div>
+    <div class="form-group">
+        <input type="button" class="btn btn-default" value="提交">
+    </div>
+</form>
+</div>
+<pre>
+    {{userForm | json}}<!--过滤器转化为json-->
+</pre>
+</body>
+<script src="../angular.js"></script>
+<script>
+    angular.module('lkMod',[])
+        .controller('formCtrl', function () {
+
+        })
+        .directive('lkErrors', function ($compile) {
+            return {
+                require: 'ngModel',
+                link: function (scope, element, attrs, ngModelCtrl) {
+                    /**
+                     * valid,invalid,dirty,pristine
+                     * viewValue 视图值 input.value
+                     * modelValue 模型值 scope属性上的值
+                     * $setValidity 设置合法
+                     * $setViewValue 设置视图的值
+                     * $parsers 从视图到模型中的过滤器
+                     * $formatters 从模型到视图的过滤器
+                     */
+                    var subScope = scope.$new(true);//独立的scope
+                    subScope.hasErrors = function () {
+                        return ngModelCtrl.$invalid;
+                    }
+                    subScope.errors = function () {
+                        return ngModelCtrl.$error;
+                    }
+                    var template = '<p class="help-block" ng-show="hasErrors()" ng-repeat="(key,value) in errors()">{{key|errors}}</p>'
+                    var msg = $compile(template)(subScope);
+                    element.after(msg);
+                }
+            }
+        })
+        .filter('errors', function () {
+            return function (input) {
+                var msg = {
+                    'require':'必填',
+                    'email':'必须是邮箱',
+                    'unique':'用户名重复'
+                }
+                return msg[input];
+            }
+        })
+//        .directive('lkUnique', function ($http,$timeout) {
+//            //1、监听数据变化
+//            //2、当数据变化时到后台校验
+//            //3、用返回值设置字段的有效性
+//            return {
+//                require:'ngModel',
+//                link: function (scope,element,attrs,ngModelCtrl) {
+//                    var timer;
+//                    scope.$watch(attrs.ngModel, function (newValue,oldValue) {
+//                        if(timer){
+//                            $timeout.cancel();
+//                        }
+//                        timer = $timeout(function () {
+//                            $http({
+//                                method:'POST',
+//                                url:'http://localhost:8080/check',
+//    //                            data:{username:ngModelCtrl.modelValue}
+//    //                            data:{username:scope[attrs.ngModel]}
+//                                data:{username:newValue}
+//    //                            ,
+//    //                            headers:{'Content-Type':'application/json'}
+//                            }).then(function (result) {
+//                                var data = result.data;//{unique:true}
+//                                ngModelCtrl.$setValidity('unique',data.unique);
+//                            });
+//                        },350);
+//                    })
+//                }
+//            }
+//        })
+        .directive('lkUnique', function ($http,$timeout) {
+            //1、监听数据变化
+            //2、当数据变化时到后台校验
+            //3、用返回值设置字段的有效性
+            return {
+                require:'ngModel',
+                link: function (scope,element,attrs,ngModelCtrl) {
+                    var timer;
+                    element.on('blur', function () {
+                        $http({
+                            method:'POST',
+                            url:'http://localhost:8080/check',
+                            //                            data:{username:ngModelCtrl.modelValue}
+                            data:{username:scope[attrs.ngModel]}
+                            //                            ,
+                            //                            headers:{'Content-Type':'application/json'}
+                        }).then(function (result) {
+                            var data = result.data;//{unique:true}
+                            ngModelCtrl.$setValidity('unique',data.unique);
+                        });
+                    })
+                }
+            }
+        })
+</script>
+</html>
