@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="lkMod"><!--赋值app初始name-->
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="../bootstrap.css">
+    <title>Title</title>
+</head>
+<div ng-controller="lkCtrl">
+    <ul>
+        <li ng-repeat="book in books">
+            {{book.name}}
+        </li>
+    </ul>
+    <button type="button" ng-click="log()" >点击</button>
+</div>
+<script src="../angular.js"></script>
+<script>
+    angular.module('lkMod',[]);
+
+    angular.module('lkMod').controller('lkCtrl',function ($http,$scope,$log) {
+        $http.get('books.json')
+//        .success(function (data, status, statusText, config) {
+//            $scope.books = data.data;
+//        })
+//        .error(function () {
+//            console.log(arguments);
+//        })
+        .then(function (data, status,config,statusText) {
+            $scope.books = data.data;
+        });
+    });
+
+    angular.module('lkMod').factory('bookInterceptor', function ($log,$q) {
+        return {
+            request: function (config) {
+                $log.log('request',config);
+                var defer = $q.defer();//异步调用
+                setTimeout(function () {
+//                    config.url = 'stu.json';
+                    config.url = 'http://localhost:8080';
+                    defer.resolve(config);
+                },3000);
+//                return config;
+                return defer.promise;
+            },
+            response: function (response) {
+                $log.log('response',response);
+                return response;
+            },
+            requestError: function () {
+                $log.log('requestError');
+            },
+            responseError: function (rejection) {
+                $log.log('responseError');
+                console.log(rejection.status);
+                switch (rejection.status){
+                    case 401:
+                        break;
+                    case 403:
+                        break;
+                    case 404:
+                          alert('页面找不到');
+                        break;
+                    case 500:
+                        break;
+                    return rejection;
+                }
+            }
+        }
+    });
+
+    angular.module('lkMod').config(function ($httpProvider) {
+        $httpProvider.interceptors.push('bookInterceptor');
+    });
+</script>
+</html>

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="lkMod"><!--赋值app初始name-->
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="../bootstrap.css">
+    <title>Title</title>
+</head>
+<body ng-controller="lkCtrl">
+{{num}}
+{{100 | add:10:5:3}}
+<!--{{88.8888 | number:1}}-->
+<!--{{88.8888 | currency:'￥'| number:1}}-->
+</body>
+<script src="../angular.js"></script>
+<script>
+    angular.module('lkMod',[]);
+    angular.module('lkMod').controller('lkCtrl', function ($scope,numberFilter,currencyFilter) {
+        $scope.num = numberFilter(88.8888,2);
+        $scope.num = currencyFilter(88.8888);
+    });
+    angular.module('lkMod').filter('add',function () {
+        return function (input) {
+            var sum = 0;
+            for(var i=0;i<arguments.length;i++){
+                sum += arguments[i];
+            }
+            return sum;
+        }
+    });
+
+</script>
+</html>

@@ -8,7 +8,9 @@
 <body ng-controller="formCtrl">
 <div class="container">
 <form name="userForm" novalidate="novalidate"><!--禁用h5验证-->
-    <div class="form-group" ng-class="{'has-success':userForm.email.$valid&&userForm.email.$dirty,'has-error':userForm.email.$invalid&&userForm.email.$dirty}">
+    <div class="form-group" ng-class="{'has-success':userForm.username.$valid&&userForm.username.$dirty,'has-error':userForm.username.$invalid&&userForm.username.$dirty}">
+        <label for="username">用户名</label>
+        <input lk-unique lk-errors type="text" id="username" class="form-control" ng-model="username" name="username" ng-required="true">
         <label for="email">邮箱</label>
         <input lk-errors type="email" id="email" ng-minlength="3" class="form-control" ng-model="email" name="email" ng-required="true">
         <!--<p class="help-block" ng-show="userForm.email.$error.required&&userForm.email.$dirty">此字段必输</p>-->
@@ -55,17 +57,37 @@
                     element.after(msg);
                 }
             }
-        }).filter('errors', function (msg) {
+        })
+        .filter('errors', function () {
             return function (input) {
-//                var msg = {
-//                    'require':'必填',
-//                    'email':'必须是邮箱'
-//                }
+                var msg = {
+                    'require':'必填',
+                    'email':'必须是邮箱',
+                    'unique':'用户名重复'
+                }
                 return msg[input];
             }
-        }).constant('msg',{
-            'require':'必填',
-            'email':'必须是邮箱'
+        })
+        .directive('lkUnique', function ($http) {
+            //1、监听数据变化
+            //2、当数据变化时到后台校验
+            //3、用返回值设置字段的有效性
+            return {
+                require:'ngModel',
+                link: function (scope,element,attrs,ngModelCtrl) {
+                    var timer;
+                    scope.$watch(attrs.ngModel, function (newValue,oldValue) {
+                        //jsonp只支持GET请求
+                        $http.jsonp('http://localhost:8080/check?callback=JSON_CALLBACK&username='+newValue)
+                        .success(function (result) {
+                            ngModelCtrl.$setValidity('unique', result.unique);
+                        })
+                        .error(function (status,data) {
+
+                        });
+                    })
+                }
+            }
         })
 </script>
 </html>

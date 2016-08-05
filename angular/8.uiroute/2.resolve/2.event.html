@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="lkMod"><!--赋值app初始name-->
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="../../bootstrap.css">
+    <title>route</title>
+</head>
+<body ng-controller="lkCtrl">
+<a ui-sref="index">index</a>
+<a ui-sref="user">user</a>
+<div ui-view></div>
+<button ng-click="go('index')">切换到主页</button>
+<button ng-click="go('user')">切换到用户状态</button>
+</body>
+<script src="../../angular.js"></script>
+<script src="../angular-ui-router.js"></script>
+<script>
+    angular.module('lkMod',['ui.router']);
+    angular.module('lkMod').config(function ($stateProvider,$urlRouterProvider) {
+        $urlRouterProvider.otherwise('/index');//当此url找不到任何状态的时候重定向到index
+        $stateProvider.state('index',{
+            url:'/index',
+            template:'index template'
+        }).state('login',{
+            url:'/login',
+            template:'login template'
+        }).state('user',{
+            url:'/user',
+            need_login:true,
+            resolve: {
+                books:function ($q) {//服务的别名可以注入到controller
+                    var defer = $q.defer();
+                    setTimeout(function () {
+                        defer.resolve([{"name":"node.js"},{"name":"python.js"}]);
+                    },5000);
+                    return defer.promise;
+                }
+            },
+            controller: function ($scope,$http,$q,books) {
+//                $http.get('books.json').then(function (data) {
+//                    $scope.books = data.data;
+//                })
+                //setTimeout不能用
+                $scope.books = books;
+
+            },
+            template:'{{me}}<ul><li ng-repeat="book in books">{{book.name}}</li></ul> '
+        })
+    });
+    angular.module('lkMod').controller('lkCtrl', function ($rootScope,$scope,$state) {
+        $scope.go = function (state) {
+            $state.go(state);
+        };
+        $rootScope.me = 'kevin';
+    });
+    angular.module('lkMod').run(function ($rootScope,$state) {
+        $rootScope.$on('$stateChangeStart', function (event,toState,toParam,fromState,fromParams) {
+            if(toState.need_login){
+                if(!$rootScope.username){
+                    alert('你还没登陆！');
+                    event.preventDefault();
+                    $state.go('login')
+                    return;
+                }
+            }
+        })
+    });
+</script>
+</html>

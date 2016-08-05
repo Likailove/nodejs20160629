@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="lkMod"><!--赋值app初始name-->
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="../bootstrap.css">
+    <title>route</title>
+</head>
+<body>
+<div ng-view></div>
+</body>
+<script src="../angular.js"></script>
+<script src="../angular-route.js"></script>
+<script>
+    angular.module('lkMod',['ngRoute']);
+    angular.module('lkMod').config(function ($routeProvider) {
+        $routeProvider.when('/',{
+            templateUrl:'root.html'
+        }).when('/index',{
+            templateUrl:'in.html'
+        }).when('/user',{
+            templateUrl:'user.html'
+        }).otherwise({
+            redirectTo:'/'
+        })
+    });
+</script>
+</html>

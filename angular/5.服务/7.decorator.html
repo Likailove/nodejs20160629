@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="lkMod"><!--赋值app初始name-->
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="../bootstrap.css">
+    <title>Title</title>
+</head>
+<div ng-controller="lkCtrl">
+    <button type="button" ng-click="log()" >点击</button>
+</div>
+<script src="../angular.js"></script>
+<script>
+    angular.module('lkMod',[])
+        .config(function ($provide) {//angular的服务库
+            $provide.decorator('$log', function ($delegate) {
+                var lastlog = $delegate.log;
+                $delegate['log'] = function () {
+                    var args = Array.prototype.slice.call(arguments);
+                    args.unshift(new Date());
+                    lastlog.apply(null,args);
+                }
+                return $delegate;
+            })
+        })
+    angular.module('lkMod').controller('lkCtrl',function ($scope,$log) {
+        $scope.log = function () {
+            $log.log('hello');
+        }
+    })
+</script>
+</html>

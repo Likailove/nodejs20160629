@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="lkMod"><!--赋值app初始name-->
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="../../bootstrap.css">
+    <title>route</title>
+</head>
+<body>
+<div ui-view></div>
+</body>
+<script src="../../angular.js"></script>
+<script src="../angular-ui-router.js"></script>
+<script>
+    angular.module('lkMod',['ui.router']);
+    angular.module('lkMod').config(function ($stateProvider) {
+        $stateProvider.state('index',{
+            url:'/index',
+            template:'index template'
+        }).state('user',{
+            url:'/user',
+            template:'user template'
+        })
+    });
+</script>
+</html>
