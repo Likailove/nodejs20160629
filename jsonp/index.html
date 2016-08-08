@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="bootstrap.css">
+</head>
+<body>
+keywords:<input class="form-control" id="keyword" type="text">
+<input type="button" class="btn btn-default" onclick="search()" value="search">
+<ul class="list-group">
+
+</ul>
+</body>
+<script src="jquery.js"></script>
+<script src="bootstrap.js"></script>
+<script>
+    function show(result){
+        var words = result.s;
+        var ul = $(".list-group")[0];//document.getElementsByClassName('list-group');
+        ul.innerHTML = '';
+        ul.addEventListener('click', function (event) {
+            var val = event.target.innerHTML;
+            window.open("https://www.baidu.com/s?ie=utf-8&mod=1&isbd=1&isid=bb3f0bc800035f7d&ie=utf-8&f=3&rsv_bp=1&rsv_idx=1&tn=baidu&wd="+val+"&oq="+val+"&rsv_pq=bb3f0bc800035f7d&rsv_t=7b3eBfGeTTlZwEgg4%2BR9Bdl1raIYNAdaQMPJek2wP2RvE0orxNSxKX8ZdQw&rqlang=cn&rsv_enter=0&inputT=4915774&rsv_sug3=4&rsv_sug1=4&rsv_sug7=100&prefixsug=category&rsp=0&rsv_sug4=4916371&bs=category&rsv_sid=1451_17946_11665_20719&_ss=1&clist=&hsug=&f4s=1&csor=0&_cr1=33219");
+        });
+        ul.style.border = 'solid 1px red';
+        words.forEach(function (word) {
+            var li=document.createElement("li");
+            li.className = 'list-item';
+            li.innerHTML = word;
+            ul.appendChild(li);
+        });
+    }
+
+    function search(){
+        var keyword = $("#keyword").val();
+        var url = "http://localhost:8080/jsonp/su?wd="+keyword+"&cb=show";
+//        var url = "http://suggestion.baidu.com/su?wd="+keyword+"&cb=show";
+        var script = document.createElement('script');
+        script.src = url;
+        document.body.appendChild(script);
+    }
+</script>
+<!--<script src="http://suggestion.baidu.com/su?wd=a&cb=show"></script>-->
+</html>
