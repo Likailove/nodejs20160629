@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="lkMod">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="../bootstrap.css">
+</head>
+<body style="margin-top: 70px;">
+<div class="container" ng-controller="lkCtrl">
+    <form name="userform" novalidate="novalidate">
+        <div class="form-group">
+            <label for="password">密码</label>
+            <input  name="password" type="text" class="form-control" id="password" ng-model="user.password">
+        </div>
+        <div class="form-group">
+            <label for="repassword">重复密码</label>
+            <input name="repassword" same-password="user.password" type="text" class="form-control" id="repassword" ng-model="user.repassword">
+        </div>
+        <div class="form-group">
+            <button class="btn btn-default" ng-click="resetVal()">提交</button>
+        </div>
+    </form>
+    <pre>{{userform | json}}</pre>
+    <pre>{{user | json}}</pre>
+</div>
+</body>
+<script src="../jquery.js"></script>
+<script src="../bootstrap.js"></script>
+<script src="../angular.js"></script>
+<script>
+    angular.module('lkMod',[]);
+    angular.module('lkMod').controller('lkCtrl', function ($scope) {
+        $scope.user = {};
+        $scope.resetVal = function () {
+            $scope.user = {password:'password',repassword:'repassword'};
+        };
+    });
+    angular.module('lkMod').directive('samePassword', function () {
+        return{
+            require:'ngModel',
+            link:function(scope,element,attrs,ngModel){
+                //当scope上值改变之后，下列函数会被依次调用，最终的返回值会写到视图上
+//                ngModel.$formatters.push(function (modelValue) {
+//                    return 'prefix:' + modelValue;
+//                });
+//                //当视图改变之后，下列函数会依次调用，最终存到scope上的是最后的值
+//                ngModel.$parsers.push(function (viewValue) {
+//                    return viewValue.slice(7);
+//                });
+                //验证器
+                ngModel.$validators.sameValue = function (modelValue) {
+                    return modelValue == scope.$eval(attrs['samePassword']);
+                };
+
+                scope.$watch(function () {
+                    return scope.$eval(attrs['samePassword']);
+                }, function () {
+                    ngModel.$setValidity('sameValue',ngModel.modelValue == scope.$eval(attrs['samePassword']));
+                })
+            }
+        }
+    })
+</script>
+</html>

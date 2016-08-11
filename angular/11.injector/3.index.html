@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="lkMod">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="../bootstrap.css">
+</head>
+<body>
+<div class="container">
+    <button onclick="show()">获取</button>
+    <div id="content"></div>
+</div>
+</body>
+<script src="../jquery.js"></script>
+<script src="../bootstrap.js"></script>
+<script src="../angular.js"></script>
+<script src="../angular-ui-router.js"></script>
+<script>
+    angular.module('lkMod',[]);
+    angular.module('lkMod').provider('lkHello', function () {
+        this.$get = function () {
+            return "hello world";
+        }
+    });
+    function show(){
+        var element = angular.element(document.querySelector('#content'));
+        var injector = element.injector();
+        document.querySelector('#content').innerHTML = injector.get('lkHello');
+    }
+</script>
+</html>

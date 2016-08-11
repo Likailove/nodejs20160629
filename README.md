@@ -33,6 +33,16 @@ npm install multer --save
 12、安装angularjs
 bower install angular --save
 
+13、安装angular-route
+bower install angular-route --save
+
+14、安装angular-ui-router
+bower install angular-ui-router --save
+
+15、安装gulp
+npm install -g gulp
+npm install gulp --save
+
 GIT
 git init
 git add -A
