@@ -42,6 +42,24 @@ bower install angular-ui-router --save
 15、安装gulp
 npm install -g gulp
 npm install gulp --save
+npm install gulp-load-plugins gulp-concat --save-dev
+npm install gulp-less --save-dev
+npm install gulp-connect --save-dev
+npm install gulp-uglify --save-dev
+npm install gulp-rename --save-dev
+npm install gulp-minify-css --save-dev
+npm install gulp-imagemin --save-dev
+npm install gulp-jshint --save-dev
+
+
+16、安装yeoman项目生成器
+npm install -g yo
+mkdir gulpdemo
+cd gulpdemo
+npm install -g generator-gulp-webapp
+yo gulp-webapp gulpdemo
+
+
 
 GIT
 git init
